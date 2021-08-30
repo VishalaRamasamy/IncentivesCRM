@@ -1,0 +1,3037 @@
+UserScreen As screen:
+    Fill: =RGBA(243, 242, 241, 1)
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =Set(homerew,true);
+        Clear(Ranking);
+        Set(sortbyduedate,false);
+        ClearCollect(GroupByPoints, AddColumns(GroupBy(UserIncentives,"UserName","Remaining"),"Points",Sum(Remaining.IncentivePoints,IncentivePoints)));
+        ClearCollect(Sorting,SortByColumns(GroupByPoints,"Points",Descending));
+        ForAll(Sorting,
+               Collect(Ranking,
+                       Last(FirstN(AddColumns(Sorting,
+                                        "RowNumber",
+                                        CountRows(Ranking)+1
+                                   ),
+                                   CountRows(Ranking)+1
+                            )
+                       )   
+               )
+        )
+    Orientation: =If(UserScreen.Width < UserScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= UserScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    "'Admin Tool Button1' As button":
+        BorderColor: =RGBA(116, 116, 116, 1)
+        BorderThickness: =3
+        Color: =RGBA(0, 0, 0, 1)
+        Fill: =RGBA(243, 242, 241, 1)
+        FocusedBorderColor: ='Admin Tool Button1'.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Normal
+        Height: =39
+        HoverBorderColor: =ColorFade('Admin Tool Button1'.BorderColor, 20%)
+        HoverColor: =RGBA(0, 0, 0, 1)
+        HoverFill: =
+        OnSelect: |+
+            =
+            Navigate(AdminScreen);
+            Set(AddIncentive,false);
+            Set(EditIncentive,false);
+            Set(AddEditIncentive,false);
+            Set(GiveRewards,true);Set(extravisible,true);
+            Set(EditReward,false);
+            Set(ManualEdit,false);
+            Set(addreward,false);
+            Set(ShowErrorMsg,false);
+            Set(ReasonLabel,false);
+            Set(IncenName,false);
+            Set(MemberName,false);
+            Set(vouchercodemandatory,false);
+            Set(UnderLine1,true);
+            Set(UnderLine2,false);
+            Set(UnderLine3,false);
+            Set(UnderLine4,false);
+            Set(noincentremove,false);
+            Set(manualmandatory,false);
+            Set(GiveRewardsHeading1,true);
+            Set(GiveRewardsHeading2,true);
+            Set(ManualEditsHeading1,false);
+            Set(ManualEditsHeading2,false);
+            Set(AddEditIncentiveHeading1,false);
+            Set(AddEditIncentiveHeading2,false);
+            Set(AddEditRewardHeading1,false);
+            Set(AddEditRewardHeading2,false);
+            Set(GiveRewardsScreen,true);
+            Set(GiveRewardsHeaderTitleBlack,true);
+            Set(ManualEditsHeaderTitleBlack,false);
+            Set(AddEditIncentiveHeaderTitleBlack,false);
+            Set(AddEditRewardHeaderTitleBlack,false);
+            Reset(IncentiveCodeInputTxt);
+            Set(usertakenthis,false);
+            Set(expiredincentive,false);
+            Set(incencodenotexist,false);
+            Set(sortbyrequested,true);
+            Set(noinputcode,false);
+            
+        PaddingLeft: =25
+        PressedBorderColor: ='Admin Tool Button1'.Fill
+        PressedColor: =RGBA(0, 0, 0, 1)
+        PressedFill: =
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =10.5
+        Text: ="Admin Tool"
+        Visible: =false
+        Width: =123
+        X: =343
+        Y: =13
+        ZIndex: =1
+
+    "'Home Button1' As button":
+        BorderColor: =
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        Color: =RGBA(0, 0, 0, 1)
+        Fill: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: ='Home Button1'.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        HoverBorderColor: =
+        HoverColor: =RGBA(0, 0, 0, 1)
+        HoverFill: =
+        OnSelect: =Navigate(UserScreen)
+        PaddingLeft: =25
+        PressedBorderColor: =
+        PressedColor: =
+        PressedFill: =
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =10.5
+        Text: ="  Home"
+        Visible: =showadmin
+        Width: =95
+        X: =866
+        Y: =17
+        ZIndex: =2
+
+    "'Incentives app' As label":
+        FocusedBorderColor: ='Incentives app'.BorderColor
+        Font: =Font.'Segoe UI'
+        Height: =32
+        HoverBorderColor: ='Incentives app'.BorderColor
+        HoverColor: ='Incentives app'.Color
+        HoverFill: ='Incentives app'.Fill
+        PaddingBottom: =10
+        PaddingLeft: =0
+        PaddingRight: =0.00
+        PaddingTop: =0.00
+        PressedBorderColor: ='Incentives app'.BorderColor
+        PressedColor: ='Incentives app'.Color
+        PressedFill: ='Incentives app'.Fill
+        Size: =24
+        Text: ="Incentives app"
+        Width: =204
+        X: =22
+        Y: =22
+        ZIndex: =3
+
+    Icon27 As icon.Home:
+        Color: =RGBA(0, 0, 0, 1)
+        DisabledFill: =Icon27.Fill
+        FocusedBorderColor: =Icon27.BorderColor
+        Height: =16
+        HoverBorderColor: =ColorFade(Icon27.BorderColor, 20%)
+        HoverColor: =ColorFade(Icon27.Color, 20%)
+        HoverFill: =Icon27.Fill
+        Icon: =Icon.Home
+        PaddingRight: =0.00
+        PaddingTop: =0.00
+        PressedBorderColor: =ColorFade(Icon27.BorderColor, -20%)
+        PressedColor: =ColorFade(Icon27.Color, -20%)
+        PressedFill: =Icon27.Fill
+        Visible: =showadmin
+        Width: =16
+        X: =880
+        Y: =29
+        ZIndex: =5
+
+    ActiveIncentivesGroup As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =33
+
+        ActivitiesWithIncentivesRectangle As rectangle:
+            DisabledFill: =ActivitiesWithIncentivesRectangle.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =ActivitiesWithIncentivesRectangle.BorderColor
+            Height: =278
+            HoverFill: =ActivitiesWithIncentivesRectangle.Fill
+            PressedFill: =ActivitiesWithIncentivesRectangle.Fill
+            Width: =523
+            X: =559
+            Y: =467
+            ZIndex: =13
+
+        "'Activities with incentives' As label":
+            Color: =RGBA(37, 36, 35, 1)
+            FocusedBorderColor: ='Activities with incentives'.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =24
+            HoverBorderColor: ='Activities with incentives'.BorderColor
+            HoverColor: ='Activities with incentives'.Color
+            HoverFill: ='Activities with incentives'.Fill
+            PaddingLeft: =0
+            PressedBorderColor: ='Activities with incentives'.BorderColor
+            PressedColor: ='Activities with incentives'.Color
+            PressedFill: ='Activities with incentives'.Fill
+            Size: =13.5
+            Text: ="Activities with incentives"
+            Width: =200
+            X: =615
+            Y: =487
+            ZIndex: =14
+
+        Image3_3 As image:
+            FocusedBorderColor: =Image3_3.BorderColor
+            Height: =24
+            HoverBorderColor: =ColorFade(Image3_3.BorderColor, 20%)
+            HoverFill: =ColorFade(Image3_3.Fill, 20%)
+            Image: ='Group 11@2x'
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =ColorFade(Image3_3.BorderColor, -20%)
+            PressedFill: =ColorFade(Image3_3.Fill, -20%)
+            Width: =24
+            X: =581
+            Y: =487
+            ZIndex: =15
+
+        ActivityName As label:
+            Color: =RGBA(37, 36, 35, 1)
+            FocusedBorderColor: =ActivityName.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =ActivityName.BorderColor
+            HoverColor: =ActivityName.Color
+            HoverFill: =ActivityName.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =ActivityName.BorderColor
+            PressedColor: =ActivityName.Color
+            PressedFill: =ActivityName.Fill
+            Size: =9
+            Text: ="Activity"
+            Width: =160
+            X: =581
+            Y: =539
+            ZIndex: =23
+
+        activityPoints As label:
+            Color: =RGBA(37, 36, 35, 1)
+            FocusedBorderColor: =activityPoints.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =activityPoints.BorderColor
+            HoverColor: =activityPoints.Color
+            HoverFill: =activityPoints.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =activityPoints.BorderColor
+            PressedColor: =activityPoints.Color
+            PressedFill: =activityPoints.Fill
+            Size: =9
+            Text: ="Points"
+            Width: =52
+            X: =882
+            Y: =539
+            ZIndex: =24
+
+        EndDateOfIncentive As label:
+            Color: =RGBA(37, 36, 35, 1)
+            FocusedBorderColor: =EndDateOfIncentive.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =EndDateOfIncentive.BorderColor
+            HoverColor: =EndDateOfIncentive.Color
+            HoverFill: =EndDateOfIncentive.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =EndDateOfIncentive.BorderColor
+            PressedColor: =EndDateOfIncentive.Color
+            PressedFill: =EndDateOfIncentive.Fill
+            Size: =9
+            Text: ="End date"
+            Width: =82
+            X: =959
+            Y: =539
+            ZIndex: =25
+
+        "Gallery3 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+            DisabledBorderColor: =Gallery3.BorderColor
+            DisabledFill: =Gallery3.Fill
+            Height: =170
+            HoverBorderColor: =Gallery3.BorderColor
+            HoverFill: =Gallery3.Fill
+            Items: |-
+                =//If(sortbycreated,Sort(Filter(Incentives_1,DueDate>=Today()&&IsIncentiveLive=true),Created,Descending),If(sortbyduedate,Sort(Filter(Incentives_1,DueDate>=Today()&&IsIncentiveLive=true),DueDate,Descending),Sort(Filter(Incentives_1,DueDate>=Today()&&IsIncentiveLive=true),DueDate,Ascending)))
+                Incentives_1
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =Gallery3.BorderColor
+            PressedBorderColor: =Gallery3.BorderColor
+            PressedFill: =Gallery3.Fill
+            TemplatePadding: =0
+            TemplateSize: =45
+            Width: =520
+            X: =562
+            Y: =574
+            ZIndex: =26
+
+            Title3 As label:
+                Color: =RGBA(37, 36, 35, 1)
+                FocusedBorderColor: =Title3.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Normal
+                Height: =23
+                HoverBorderColor: =Title3.BorderColor
+                HoverColor: =Title3.Color
+                HoverFill: =Title3.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                PressedBorderColor: =Title3.BorderColor
+                PressedColor: =Title3.Color
+                PressedFill: =Title3.Fill
+                Size: =10.5
+                Text: =If(Len(ThisItem.Name) > 20,Concatenate(Left(ThisItem.Name,20),"..."),ThisItem.Name)
+                Tooltip: =ThisItem.Name
+                VerticalAlign: =VerticalAlign.Top
+                Width: =190
+                X: =48
+                Y: =10
+                ZIndex: =2
+
+            Subtitle3 As label:
+                Color: =RGBA(37, 36, 35, 1)
+                FocusedBorderColor: =Subtitle3.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =24
+                HoverBorderColor: =Subtitle3.BorderColor
+                HoverColor: =Subtitle3.Color
+                HoverFill: =Subtitle3.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0.00
+                PaddingTop: =0
+                PressedBorderColor: =Subtitle3.BorderColor
+                PressedColor: =Subtitle3.Color
+                PressedFill: =Subtitle3.Fill
+                Size: =10.5
+                Text: =Text(ThisItem.DueDate,"[$-en-US]dd mmm yyyy")
+                VerticalAlign: =VerticalAlign.Top
+                Width: =110
+                X: =395
+                Y: =10
+                ZIndex: =3
+
+            Label28 As label:
+                Color: =RGBA(37, 36, 35, 1)
+                FocusedBorderColor: =Label28.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =16
+                HoverBorderColor: =Label28.BorderColor
+                HoverColor: =Label28.Color
+                HoverFill: =Label28.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =Label28.BorderColor
+                PressedColor: =Label28.Color
+                PressedFill: =Label28.Fill
+                Size: =10.5
+                Text: =ThisItem.Points
+                Width: =54
+                X: =316
+                Y: =10
+                ZIndex: =6
+
+            Label83 As label:
+                Align: =Align.Justify
+                BorderColor: =RGBA(243, 165, 57, 1)
+                Color: =RGBA(99, 139, 44, 1)
+                Fill: =RGBA(255, 255, 255, 1)
+                FocusedBorderColor: =Label83.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =18
+                HoverBorderColor: =Label83.BorderColor
+                HoverColor: =Label83.Color
+                HoverFill: =Label83.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =7
+                PaddingLeft: =7
+                PressedBorderColor: =Label83.BorderColor
+                PressedColor: =Label83.Color
+                PressedFill: =Label83.Fill
+                Size: =9
+                Text: =ThisItem.IncentiveCode
+                Visible: |-
+                    =//If(DateDiff(ThisItem.CreatedOn,Today()) <= 7,true,false)
+                    true
+                Width: =68
+                X: =191
+                Y: =10
+                ZIndex: =7
+
+            Image7 As image:
+                FocusedBorderColor: =Image7.BorderColor
+                Height: =20
+                HoverBorderColor: =ColorFade(Image7.BorderColor, 20%)
+                HoverFill: =ColorFade(Image7.Fill, 20%)
+                Image: =If(IsBlank(First(ThisItem.Attachments).Value),SampleImage,First(ThisItem.Attachments).Value)
+                OnSelect: =Select(Parent)
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                PressedBorderColor: =ColorFade(Image7.BorderColor, -20%)
+                PressedFill: =ColorFade(Image7.Fill, -20%)
+                Width: =20
+                X: =18
+                Y: =8
+                ZIndex: =8
+
+    ActiveIncentivesDateDownArrow As image:
+        FocusedBorderColor: =ActiveIncentivesDateDownArrow.BorderColor
+        Height: =15
+        HoverBorderColor: =ColorFade(ActiveIncentivesDateDownArrow.BorderColor, 20%)
+        HoverFill: =ColorFade(ActiveIncentivesDateDownArrow.Fill, 20%)
+        Image: =Downarrow
+        ImageRotation: =ImageRotation.Rotate180
+        OnSelect: =Set(sortbyduedate,false);Set(sortbycreated,false);
+        PressedBorderColor: =ColorFade(ActiveIncentivesDateDownArrow.BorderColor, -20%)
+        PressedFill: =ColorFade(ActiveIncentivesDateDownArrow.Fill, -20%)
+        Visible: =sortbyduedate
+        Width: =13
+        X: =1008
+        Y: =537
+        ZIndex: =52
+
+    ActiveIncentivesDateUpArrow As image:
+        FocusedBorderColor: =ActiveIncentivesDateUpArrow.BorderColor
+        Height: =15
+        HoverBorderColor: =ColorFade(ActiveIncentivesDateUpArrow.BorderColor, 20%)
+        HoverFill: =ColorFade(ActiveIncentivesDateUpArrow.Fill, 20%)
+        Image: =UpArrow
+        OnSelect: =Set(sortbyduedate,true);Set(sortbycreated,false);
+        PressedBorderColor: =ColorFade(ActiveIncentivesDateUpArrow.BorderColor, -20%)
+        PressedFill: =ColorFade(ActiveIncentivesDateUpArrow.Fill, -20%)
+        Visible: =!sortbyduedate
+        Width: =13
+        X: =1008
+        Y: =537
+        ZIndex: =53
+
+    Label6 As label:
+        BorderColor: =RGBA(248, 181, 23, 1)
+        BorderThickness: =2
+        FocusedBorderColor: =Label6.BorderColor
+        Font: =Font.'Segoe UI'
+        Height: =64
+        HoverBorderColor: =Label6.BorderColor
+        HoverColor: =Label6.Color
+        HoverFill: =Label6.Fill
+        PressedBorderColor: =Label6.BorderColor
+        PressedColor: =Label6.Color
+        PressedFill: =Label6.Fill
+        Size: =10.5
+        Text: =""
+        Width: =237
+        X: =839
+        Y: =279
+        ZIndex: =55
+
+    Label43_3 As label:
+        FocusedBorderColor: =Label43_3.BorderColor
+        Font: =Font.'Segoe UI'
+        Height: =16
+        HoverBorderColor: =Label43_3.BorderColor
+        HoverColor: =Label43_3.Color
+        HoverFill: =Label43_3.Fill
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        PressedBorderColor: =Label43_3.BorderColor
+        PressedColor: =Label43_3.Color
+        PressedFill: =Label43_3.Fill
+        Size: =9
+        Text: ="Select"
+        Visible: =MoreInfo
+        Width: =100
+        X: =744
+        Y: =160
+        ZIndex: =56
+
+    Label70_2 As label:
+        FocusedBorderColor: =Label70_2.BorderColor
+        Font: =Font.'Segoe UI'
+        Height: =36
+        HoverBorderColor: =Label70_2.BorderColor
+        HoverColor: =Label70_2.Color
+        HoverFill: =Label70_2.Fill
+        PressedBorderColor: =Label70_2.BorderColor
+        PressedColor: =Label70_2.Color
+        PressedFill: =Label70_2.Fill
+        Size: =10.5
+        Text: =Sum(Filter(Ranking, UserName=User().FullName),Points)
+        Visible: =If(LookUp(Ranking,UserName=User().FullName,RowNumber)>10,true,false)
+        Width: =66
+        X: =348
+        Y: =658
+        ZIndex: =60
+
+    IncentivesGroup As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =76
+
+        Rectangle23 As rectangle:
+            DisabledFill: =Rectangle23.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Rectangle23.BorderColor
+            Height: =443
+            HoverFill: =Rectangle23.Fill
+            PressedFill: =Rectangle23.Fill
+            Visible: =Incentives
+            Width: =600
+            X: =253
+            Y: =216
+            ZIndex: =80
+
+        "Gallery8 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+            DisabledBorderColor: =Gallery8.BorderColor
+            DisabledFill: =Gallery8.Fill
+            Height: =443
+            HoverBorderColor: =Gallery8.BorderColor
+            HoverFill: =Gallery8.Fill
+            Items: |
+                =Sort(Filter(UserIncentives,UserName=Office365Users.MyProfile().DisplayName),ReceivedOn,Descending)
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =Gallery8.BorderColor
+            PressedBorderColor: =Gallery8.BorderColor
+            PressedFill: =Gallery8.Fill
+            TemplatePadding: =0
+            TemplateSize: =40
+            Visible: =Incentives
+            Width: =595
+            X: =253
+            Y: =215
+            ZIndex: =90
+
+            Image8 As image:
+                FocusedBorderColor: =Image8.BorderColor
+                Height: =20
+                HoverBorderColor: =ColorFade(Image8.BorderColor, 20%)
+                HoverFill: =ColorFade(Image8.Fill, 20%)
+                Image: =If(IsBlank(First(LookUp(Incentives_1,Name=ThisItem.IncentiveName).Attachments).Value),SampleImage,First(LookUp(Incentives_1,Name=ThisItem.IncentiveName).Attachments).Value)
+                OnSelect: =Select(Parent)
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                PressedBorderColor: =ColorFade(Image8.BorderColor, -20%)
+                PressedFill: =ColorFade(Image8.Fill, -20%)
+                Width: =20
+                X: =29
+                Y: =18
+                ZIndex: =1
+
+            Title7 As label:
+                FocusedBorderColor: =Title7.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Normal
+                Height: =20
+                HoverBorderColor: =Title7.BorderColor
+                HoverColor: =Title7.Color
+                HoverFill: =Title7.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                PressedBorderColor: =Title7.BorderColor
+                PressedColor: =Title7.Color
+                PressedFill: =Title7.Fill
+                Size: =10.5
+                Text: =ThisItem.IncentivePoints
+                VerticalAlign: =VerticalAlign.Top
+                Width: =96
+                X: =300
+                Y: =18
+                ZIndex: =2
+
+            Subtitle7 As label:
+                FocusedBorderColor: =Subtitle7.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =20
+                HoverBorderColor: =Subtitle7.BorderColor
+                HoverColor: =Subtitle7.Color
+                HoverFill: =Subtitle7.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                PressedBorderColor: =Subtitle7.BorderColor
+                PressedColor: =Subtitle7.Color
+                PressedFill: =Subtitle7.Fill
+                Size: =10.5
+                Text: =Text(ThisItem.ReceivedOn,"[$-en-US]dd mmm yyyy")
+                VerticalAlign: =VerticalAlign.Top
+                Width: =126
+                X: =445
+                Y: =18
+                ZIndex: =3
+
+            Label76 As label:
+                FocusedBorderColor: =Label76.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =20
+                HoverBorderColor: =Label76.BorderColor
+                HoverColor: =Label76.Color
+                HoverFill: =Label76.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Label76.BorderColor
+                PressedColor: =Label76.Color
+                PressedFill: =Label76.Fill
+                Size: =10.5
+                Text: =ThisItem.IncentiveName
+                Width: =260
+                X: =59
+                Y: =18
+                ZIndex: =4
+
+        Label74 As label:
+            FocusedBorderColor: =Label74.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =17
+            HoverBorderColor: =Label74.BorderColor
+            HoverColor: =Label74.Color
+            HoverFill: =Label74.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label74.BorderColor
+            PressedColor: =Label74.Color
+            PressedFill: =Label74.Fill
+            Size: =9
+            Text: ="Points"
+            Visible: =Incentives
+            Width: =62
+            X: =551
+            Y: =196
+            ZIndex: =91
+
+        Label75 As label:
+            FocusedBorderColor: =Label75.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =17
+            HoverBorderColor: =Label75.BorderColor
+            HoverColor: =Label75.Color
+            HoverFill: =Label75.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label75.BorderColor
+            PressedColor: =Label75.Color
+            PressedFill: =Label75.Fill
+            Size: =9
+            Text: ="Points collected on"
+            Visible: =Incentives
+            Width: =120
+            X: =698
+            Y: =196
+            ZIndex: =92
+
+        Label73 As label:
+            FocusedBorderColor: =Label73.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =17
+            HoverBorderColor: =Label73.BorderColor
+            HoverColor: =Label73.Color
+            HoverFill: =Label73.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label73.BorderColor
+            PressedColor: =Label73.Color
+            PressedFill: =Label73.Fill
+            Size: =9
+            Text: ="Activity"
+            Visible: =Incentives
+            X: =283
+            Y: =196
+            ZIndex: =93
+
+    Button_Reset As button:
+        BorderColor: =RGBA(98, 100, 167, 1)
+        BorderThickness: =0.5
+        Color: =RGBA(98, 100, 167, 1)
+        DisabledBorderColor: =RGBA(237, 235, 233, 1)
+        DisabledColor: =RGBA(255, 255, 255, 1)
+        DisabledFill: =RGBA(237, 235, 233, 1)
+        DisplayMode: =
+        Fill: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: =Button_Reset.BorderColor
+        FocusedBorderThickness: =2
+        Font: =Font.'Segoe UI'
+        Height: =32
+        HoverBorderColor: =RGBA(98, 100, 167, 1)
+        HoverColor: =
+        HoverFill: =RGBA(171, 176, 184, 1)
+        OnSelect: |-
+            =UpdateContext({ResetCheckbox:true});
+            UpdateContext({checkboxuncheck:true});
+            UpdateContext({checkboxuncheck:false});
+            Clear(UserCheckedRewardPoints);
+            UpdateContext({checkboxuncheck:true});
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        PressedBorderColor: =RGBA(98, 100, 167, 1)
+        PressedColor: =
+        PressedFill: =RGBA(133, 140, 152, 1)
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =10.5
+        Text: ="Reset"
+        Visible: =MoreInfo
+        Width: =100
+        X: =620
+        Y: =620
+        ZIndex: =78
+
+    Label7 As label:
+        FocusedBorderColor: =Label7.BorderColor
+        Font: =Font.'Segoe UI'
+        Height: =16
+        HoverBorderColor: =Label7.BorderColor
+        HoverColor: =Label7.Color
+        HoverFill: =Label7.Fill
+        PressedBorderColor: =Label7.BorderColor
+        PressedColor: =Label7.Color
+        PressedFill: =Label7.Fill
+        Size: =9
+        Text: ="Select"
+        Visible: =MoreInfo
+        Width: =100
+        X: =750
+        Y: =160
+        ZIndex: =79
+
+    RewardsGroup As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =82
+
+        Rectangle24 As rectangle:
+            DisabledFill: =Rectangle24.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Rectangle24.BorderColor
+            Height: =420
+            HoverFill: =Rectangle24.Fill
+            PressedFill: =Rectangle24.Fill
+            Visible: =Rewards
+            Width: =600
+            X: =253
+            Y: =215
+            ZIndex: =94
+
+        Label77 As label:
+            FocusedBorderColor: =Label77.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Label77.BorderColor
+            HoverColor: =Label77.Color
+            HoverFill: =Label77.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label77.BorderColor
+            PressedColor: =Label77.Color
+            PressedFill: =Label77.Fill
+            Size: =9
+            Text: ="Name"
+            Visible: =Rewards
+            Width: =160
+            X: =283
+            Y: =196
+            ZIndex: =95
+
+        Label78 As label:
+            FocusedBorderColor: =Label78.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Label78.BorderColor
+            HoverColor: =Label78.Color
+            HoverFill: =Label78.Fill
+            PaddingRight: =4.05
+            PaddingTop: =4.05
+            PressedBorderColor: =Label78.BorderColor
+            PressedColor: =Label78.Color
+            PressedFill: =Label78.Fill
+            Size: =9
+            Text: ="Points"
+            Visible: =Rewards
+            Width: =70
+            X: =477
+            Y: =196
+            ZIndex: =96
+
+        Label79 As label:
+            FocusedBorderColor: =Label79.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Label79.BorderColor
+            HoverColor: =Label79.Color
+            HoverFill: =Label79.Fill
+            PaddingRight: =4.05
+            PaddingTop: =4.05
+            PressedBorderColor: =Label79.BorderColor
+            PressedColor: =Label79.Color
+            PressedFill: =Label79.Fill
+            Size: =9
+            Text: ="Status"
+            Visible: =Rewards
+            Width: =80
+            X: =578
+            Y: =196
+            ZIndex: =97
+
+        Label80 As label:
+            FocusedBorderColor: =Label80.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Label80.BorderColor
+            HoverColor: =Label80.Color
+            HoverFill: =Label80.Fill
+            PaddingRight: =4.05
+            PaddingTop: =4.05
+            PressedBorderColor: =Label80.BorderColor
+            PressedColor: =Label80.Color
+            PressedFill: =Label80.Fill
+            Size: =9
+            Text: ="Voucher code"
+            Visible: =Rewards
+            Width: =92
+            X: =710
+            Y: =196
+            ZIndex: =98
+
+        "Gallery9 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+            DisabledBorderColor: =Gallery9.BorderColor
+            DisabledFill: =Gallery9.Fill
+            Height: =443
+            HoverBorderColor: =Gallery9.BorderColor
+            HoverFill: =Gallery9.Fill
+            Items: |
+                =Sort(Filter(UserRewards,UserName=Office365Users.MyProfile().DisplayName),CreatedOn,Descending)
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =Gallery9.BorderColor
+            PressedBorderColor: =Gallery9.BorderColor
+            PressedFill: =Gallery9.Fill
+            TemplatePadding: =0
+            TemplateSize: =40
+            Visible: =Rewards
+            Width: =595
+            X: =253
+            Y: =215
+            ZIndex: =99
+
+            Image9 As image:
+                FocusedBorderColor: =Image9.BorderColor
+                Height: =20
+                HoverBorderColor: =ColorFade(Image9.BorderColor, 20%)
+                HoverFill: =ColorFade(Image9.Fill, 20%)
+                Image: =If(IsBlank(First(LookUp(Rewards_1,Name=ThisItem.RewardName).'{Attachments}').Value),SampleImage,First(LookUp(Rewards_1,Name=ThisItem.RewardName).'{Attachments}').Value)
+                OnSelect: =Select(Parent)
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                PressedBorderColor: =ColorFade(Image9.BorderColor, -20%)
+                PressedFill: =ColorFade(Image9.Fill, -20%)
+                Width: =20
+                X: =29
+                Y: =18
+                ZIndex: =1
+
+            Title8 As label:
+                FocusedBorderColor: =Title8.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Normal
+                Height: =20
+                HoverBorderColor: =Title8.BorderColor
+                HoverColor: =Title8.Color
+                HoverFill: =Title8.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title8.BorderColor
+                PressedColor: =Title8.Color
+                PressedFill: =Title8.Fill
+                Size: =10.5
+                TabIndex: =ThisItem.RewardName
+                Text: =If(Len(ThisItem.RewardName) > 18,Concatenate(Left(ThisItem.RewardName,18),"..."),ThisItem.RewardName)
+                Tooltip: =ThisItem.RewardName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =160
+                X: =59
+                Y: =20
+                ZIndex: =2
+
+            Subtitle8 As label:
+                FocusedBorderColor: =Subtitle8.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =20
+                HoverBorderColor: =Subtitle8.BorderColor
+                HoverColor: =Subtitle8.Color
+                HoverFill: =Subtitle8.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Subtitle8.BorderColor
+                PressedColor: =Subtitle8.Color
+                PressedFill: =Subtitle8.Fill
+                Size: =10.5
+                Text: =ThisItem.RewardPoint
+                VerticalAlign: =VerticalAlign.Top
+                Width: =96
+                X: =229
+                Y: =20
+                ZIndex: =3
+
+            Label81 As label:
+                Color: =If(ThisItem.Status="collected",Green,Red)
+                FocusedBorderColor: =Label81.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =20
+                HoverBorderColor: =Label81.BorderColor
+                HoverColor: =Label81.Color
+                HoverFill: =Label81.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Label81.BorderColor
+                PressedColor: =Label81.Color
+                PressedFill: =Label81.Fill
+                Size: =10.5
+                Text: =If(ThisItem.Status="collected","Approved","Requested")
+                Width: =96
+                X: =324
+                Y: =18
+                ZIndex: =6
+
+            Label82 As label:
+                FocusedBorderColor: =Label82.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =20
+                HoverBorderColor: =Label82.BorderColor
+                HoverColor: =Label82.Color
+                HoverFill: =Label82.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Label82.BorderColor
+                PressedColor: =Label82.Color
+                PressedFill: =Label82.Fill
+                Size: =10.5
+                Text: =If(IsBlank(ThisItem.VoucherCode),"Coming soon",ThisItem.VoucherCode)
+                Width: =120
+                X: =456
+                Y: =18
+                ZIndex: =7
+
+    ViewDetailsGroup As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =86
+
+        Rectangle20 As rectangle:
+            DisabledFill: =Rectangle20.Fill
+            Fill: =RGBA(0, 0, 0, 0.8)
+            FocusedBorderColor: =Rectangle20.BorderColor
+            Height: =768
+            HoverFill: =Rectangle20.Fill
+            PressedFill: =Rectangle20.Fill
+            Visible: =ViewDetails
+            Width: =1106
+            X: =0.00
+            ZIndex: =81
+
+        Rectangle22 As rectangle:
+            DisabledFill: =Rectangle22.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Rectangle22.BorderColor
+            Height: =600
+            HoverFill: =Rectangle22.Fill
+            PressedFill: =Rectangle22.Fill
+            Visible: =ViewDetails
+            Width: =600
+            X: =253
+            Y: =84
+            ZIndex: =82
+
+        Icon23 As icon.Cancel:
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledFill: =Icon23.Fill
+            FocusedBorderColor: =Icon23.BorderColor
+            FocusedBorderThickness: =0
+            Height: =16
+            HoverBorderColor: =ColorFade(Icon23.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon23.Color, 20%)
+            HoverFill: =Icon23.Fill
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =Set(ViewDetails,false);
+                Set(Incentives,false);
+                Set(Rewards,false);
+                Set(homerew,true);
+                Set(SelectViewDetails2,false);
+                Set(SelectViewDetails,false)
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =ColorFade(Icon23.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon23.Color, -20%)
+            PressedFill: =Icon23.Fill
+            Visible: =ViewDetails
+            Width: =16
+            X: =813
+            Y: =104
+            ZIndex: =83
+
+        Label72 As label:
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Label72.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =30
+            HoverBorderColor: =Label72.BorderColor
+            HoverColor: =Label72.Color
+            HoverFill: =Label72.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label72.BorderColor
+            PressedColor: =Label72.Color
+            PressedFill: =Label72.Fill
+            Size: =13.5
+            Text: ="Your progress"
+            Visible: =ViewDetails
+            Width: =200
+            X: =317
+            Y: =106
+            ZIndex: =84
+
+        Image6 As image:
+            FocusedBorderColor: =Image6.BorderColor
+            Height: =23
+            HoverBorderColor: =ColorFade(Image6.BorderColor, 20%)
+            HoverFill: =ColorFade(Image6.Fill, 20%)
+            Image: ='Group 8@2x'
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =ColorFade(Image6.BorderColor, -20%)
+            PressedFill: =ColorFade(Image6.Fill, -20%)
+            Visible: =ViewDetails
+            Width: =23
+            X: =283
+            Y: =109
+            ZIndex: =85
+
+        Button17 As button:
+            Align: =Align.Left
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            Color: =If(SelectViewDetails=true,RGBA(98, 100, 167, 1),Black)
+            DisabledBorderColor: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Button17.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Normal
+            Height: =20
+            HoverBorderColor: =ColorFade(Button17.BorderColor, 20%)
+            HoverColor: =RGBA(98, 100, 167, 1)
+            HoverFill: =
+            OnSelect: |
+                =Set(Incentives,true);
+                Set(Rewards,false);
+                Set(SelectViewDetails2,false);
+                Set(SelectViewDetails,true)
+            PressedBorderColor: =Button17.Fill
+            PressedColor: =RGBA(98, 100, 167, 1)
+            PressedFill: =
+            Size: =10.5
+            Text: ="Activities"
+            Visible: =ViewDetails
+            Width: =80
+            X: =279
+            Y: =156
+            ZIndex: =86
+
+        Button18 As button:
+            Align: =Align.Left
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            Color: =If(SelectViewDetails2=false,Black,RGBA(98, 100, 167, 1))
+            DisabledBorderColor: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Button18.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Normal
+            Height: =20
+            HoverBorderColor: =ColorFade(Button18.BorderColor, 20%)
+            HoverColor: =RGBA(98, 100, 167, 1)
+            HoverFill: =
+            OnSelect: |-
+                =Set(Incentives,false);
+                Set(Rewards,true);
+                Set(SelectViewDetails2,true);
+                Set(SelectViewDetails,false)
+            PressedBorderColor: =Button18.Fill
+            PressedColor: =RGBA(98, 100, 167, 1)
+            PressedFill: =
+            Size: =10.5
+            Text: ="Rewards"
+            Visible: =ViewDetails
+            Width: =80
+            X: =360
+            Y: =156
+            ZIndex: =87
+
+        Rectangle26 As rectangle:
+            BorderStyle: =BorderStyle.None
+            DisabledFill: =Rectangle26.Fill
+            Fill: =RGBA(98, 100, 167, 1)
+            FocusedBorderColor: =Rectangle26.BorderColor
+            Height: =2.25
+            HoverFill: =Rectangle26.Fill
+            PressedFill: =Rectangle26.Fill
+            Visible: =SelectViewDetails
+            Width: =58
+            X: =284
+            Y: =182
+            ZIndex: =88
+
+        Rectangle27 As rectangle:
+            BorderStyle: =BorderStyle.None
+            DisabledFill: =Rectangle27.Fill
+            Fill: =RGBA(98, 100, 167, 1)
+            FocusedBorderColor: =Rectangle27.BorderColor
+            Height: =2.25
+            HoverFill: =Rectangle27.Fill
+            PressedFill: =Rectangle27.Fill
+            Visible: =SelectViewDetails2
+            Width: =54
+            X: =364
+            Y: =182
+            ZIndex: =89
+
+    ParitionLabel As rectangle:
+        BorderColor: =RGBA(230, 230, 230, 1)
+        BorderThickness: =0.6
+        DisabledFill: =ParitionLabel.Fill
+        Fill: =RGBA(230, 230, 230, 1)
+        FocusedBorderColor: =ParitionLabel.BorderColor
+        FocusedBorderThickness: =0.6
+        Height: =0.6
+        HoverFill: =ParitionLabel.Fill
+        PressedFill: =ParitionLabel.Fill
+        Visible: =MoreInfo
+        Width: =542
+        X: =282
+        Y: =585
+        ZIndex: =100
+
+    LeaderboardGroup As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =108
+
+        Rectangle17 As rectangle:
+            BorderColor: =
+            DisabledFill: =Rectangle17.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Rectangle17.BorderColor
+            Height: =497
+            HoverFill: =Rectangle17.Fill
+            PressedFill: =Rectangle17.Fill
+            Width: =523
+            X: =22
+            Y: =249
+            ZIndex: =16
+
+        Leaderboard As label:
+            BorderColor: =
+            Color: =RGBA(37, 36, 35, 1)
+            FocusedBorderColor: =Leaderboard.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =24
+            HoverBorderColor: =Leaderboard.BorderColor
+            HoverColor: =Leaderboard.Color
+            HoverFill: =Leaderboard.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Leaderboard.BorderColor
+            PressedColor: =Leaderboard.Color
+            PressedFill: =Leaderboard.Fill
+            Size: =13.5
+            Text: ="Leaderboard"
+            X: =80
+            Y: =269
+            ZIndex: =17
+
+        Image3_4 As image:
+            BorderColor: =
+            FocusedBorderColor: =Image3_4.BorderColor
+            Height: =24
+            HoverBorderColor: =ColorFade(Image3_4.BorderColor, 20%)
+            HoverFill: =ColorFade(Image3_4.Fill, 20%)
+            Image: ='Group 7@2x_1'
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =ColorFade(Image3_4.BorderColor, -20%)
+            PressedFill: =ColorFade(Image3_4.Fill, -20%)
+            Width: =24
+            X: =46
+            Y: =269
+            ZIndex: =18
+
+        LeaderboardUserName As label:
+            BorderColor: =
+            Color: =RGBA(37, 36, 35, 1)
+            FocusedBorderColor: =LeaderboardUserName.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =LeaderboardUserName.BorderColor
+            HoverColor: =LeaderboardUserName.Color
+            HoverFill: =LeaderboardUserName.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =LeaderboardUserName.BorderColor
+            PressedColor: =LeaderboardUserName.Color
+            PressedFill: =LeaderboardUserName.Fill
+            Size: =9
+            Text: ="Name"
+            Width: =52
+            X: =75
+            Y: =317
+            ZIndex: =19
+
+        LeaderboardUserPoints As label:
+            BorderColor: =
+            Color: =RGBA(37, 36, 35, 1)
+            FocusedBorderColor: =LeaderboardUserPoints.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =LeaderboardUserPoints.BorderColor
+            HoverColor: =LeaderboardUserPoints.Color
+            HoverFill: =LeaderboardUserPoints.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =LeaderboardUserPoints.BorderColor
+            PressedColor: =LeaderboardUserPoints.Color
+            PressedFill: =LeaderboardUserPoints.Fill
+            Size: =9
+            Text: ="Points"
+            Width: =52
+            X: =354
+            Y: =317
+            ZIndex: =20
+
+        LeaderboardCompletedActivities As label:
+            BorderColor: =
+            Color: =RGBA(37, 36, 35, 1)
+            FocusedBorderColor: =LeaderboardCompletedActivities.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =LeaderboardCompletedActivities.BorderColor
+            HoverColor: =LeaderboardCompletedActivities.Color
+            HoverFill: =LeaderboardCompletedActivities.Fill
+            PaddingRight: =4.05
+            PaddingTop: =4.05
+            PressedBorderColor: =LeaderboardCompletedActivities.BorderColor
+            PressedColor: =LeaderboardCompletedActivities.Color
+            PressedFill: =LeaderboardCompletedActivities.Fill
+            Size: =9
+            Text: ="Activities"
+            Width: =100
+            X: =431
+            Y: =317
+            ZIndex: =21
+
+        LeaderboardRank As label:
+            BorderColor: =
+            Color: =RGBA(37, 36, 35, 1)
+            FocusedBorderColor: =LeaderboardRank.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =LeaderboardRank.BorderColor
+            HoverColor: =LeaderboardRank.Color
+            HoverFill: =LeaderboardRank.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =LeaderboardRank.BorderColor
+            PressedColor: =LeaderboardRank.Color
+            PressedFill: =LeaderboardRank.Fill
+            Size: =9
+            Text: |-
+                ="#"
+            Width: =32
+            X: =46
+            Y: =317
+            ZIndex: =22
+
+        "Gallery4 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+            BorderColor: =
+            DisabledBorderColor: =Gallery4.BorderColor
+            DisabledFill: =Gallery4.Fill
+            Height: =If(LookUp(Ranking,UserName=User().FullName,RowNumber)>10,316,366)
+            HoverBorderColor: =Gallery4.BorderColor
+            HoverFill: =Gallery4.Fill
+            Items: =FirstN(Ranking,10)
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =Gallery4.BorderColor
+            PressedBorderColor: =Gallery4.BorderColor
+            PressedFill: =Gallery4.Fill
+            TemplatePadding: =0
+            TemplateSize: =45
+            Width: =518
+            X: =22
+            Y: =346
+            ZIndex: =27
+
+            Title4 As label:
+                Color: =RGBA(37, 36, 35, 1)
+                FocusedBorderColor: =Title4.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Normal
+                Height: =20
+                HoverBorderColor: =Title4.BorderColor
+                HoverColor: =Title4.Color
+                HoverFill: =Title4.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                PressedBorderColor: =Title4.BorderColor
+                PressedColor: =Title4.Color
+                PressedFill: =Title4.Fill
+                Size: =10.5
+                Text: =If(Len(ThisItem.UserName) > 35,Concatenate(Left(ThisItem.UserName,35),"..."),ThisItem.UserName)
+                Tooltip: =ThisItem.UserName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =275
+                X: =52
+                Y: =10
+                ZIndex: =2
+
+            Subtitle4 As label:
+                Color: =RGBA(37, 36, 35, 1)
+                FocusedBorderColor: =Subtitle4.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =20
+                HoverBorderColor: =Subtitle4.BorderColor
+                HoverColor: =Subtitle4.Color
+                HoverFill: =Subtitle4.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Subtitle4.BorderColor
+                PressedColor: =Subtitle4.Color
+                PressedFill: =Subtitle4.Fill
+                Size: =10.5
+                Text: =Sum(ThisItem.Remaining.IncentivePoints,IncentivePoints)
+                VerticalAlign: =VerticalAlign.Top
+                Width: =100
+                X: =332
+                Y: =10
+                ZIndex: =3
+
+            Label30 As label:
+                Color: =RGBA(37, 36, 35, 1)
+                FocusedBorderColor: =Label30.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =20
+                HoverBorderColor: =Label30.BorderColor
+                HoverColor: =Label30.Color
+                HoverFill: =Label30.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Label30.BorderColor
+                PressedColor: =Label30.Color
+                PressedFill: =Label30.Fill
+                Size: =10.5
+                Text: =CountRows(ThisItem.Remaining.IncentiveCode)
+                Width: =59
+                X: =416
+                Y: =9
+                ZIndex: =6
+
+            Label31 As label:
+                Color: =RGBA(37, 36, 35, 1)
+                FocusedBorderColor: =Label31.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =20
+                HoverBorderColor: =Label31.BorderColor
+                HoverColor: =Label31.Color
+                HoverFill: =Label31.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Label31.BorderColor
+                PressedColor: =Label31.Color
+                PressedFill: =Label31.Fill
+                Size: =10.5
+                Text: =ThisItem.RowNumber
+                Visible: =
+                Width: =32
+                X: =22
+                Y: =8
+                ZIndex: =7
+
+        Label32 As label:
+            BorderColor: =
+            Color: =RGBA(72, 70, 68, 1)
+            FocusedBorderColor: =Label32.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Label32.BorderColor
+            HoverColor: =Label32.Color
+            HoverFill: =Label32.Fill
+            PaddingBottom: =7
+            PaddingLeft: =0
+            PressedBorderColor: =Label32.BorderColor
+            PressedColor: =Label32.Color
+            PressedFill: =Label32.Fill
+            Size: =9
+            Text: ="Last updated on"
+            Width: =100
+            X: =362
+            Y: =712
+            ZIndex: =28
+
+        Label40 As label:
+            Color: =RGBA(72, 70, 68, 1)
+            FocusedBorderColor: =Label40.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Label40.BorderColor
+            HoverColor: =Label40.Color
+            HoverFill: =Label40.Fill
+            PaddingBottom: =7
+            PaddingLeft: =0
+            PressedBorderColor: =Label40.BorderColor
+            PressedColor: =Label40.Color
+            PressedFill: =Label40.Fill
+            Size: =9
+            Text: |-
+                =Text(First(Sort(UserIncentives,Created,Descending)).Created,"[$-en-US]mmm dd hh:mm")
+            Width: =80
+            X: =459
+            Y: =712
+            ZIndex: =29
+
+        Rectangle33 As rectangle:
+            BorderColor: =RGBA(255, 225, 136, 1)
+            BorderThickness: =2
+            DisabledFill: =Rectangle33.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Rectangle33.BorderColor
+            Height: =38
+            HoverFill: =Rectangle33.Fill
+            PressedFill: =Rectangle33.Fill
+            Visible: =If(LookUp(Ranking,UserName=User().FullName,RowNumber)>10,true,false)
+            Width: =505
+            X: =33
+            Y: =658
+            ZIndex: =57
+
+        Label70_1 As label:
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Label70_1.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =31
+            HoverBorderColor: =Label70_1.BorderColor
+            HoverColor: =Label70_1.Color
+            HoverFill: =Label70_1.Fill
+            PressedBorderColor: =Label70_1.BorderColor
+            PressedColor: =Label70_1.Color
+            PressedFill: =Label70_1.Fill
+            Size: =10.5
+            Text: =Office365Users.MyProfile().DisplayName
+            Visible: =If(LookUp(Ranking,UserName=User().FullName,RowNumber)>10,true,false)
+            Width: =195
+            X: =70
+            Y: =662
+            ZIndex: =58
+
+        Label70_3 As label:
+            FocusedBorderColor: =Label70_3.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =Label70_3.BorderColor
+            HoverColor: =Label70_3.Color
+            HoverFill: =Label70_3.Fill
+            PressedBorderColor: =Label70_3.BorderColor
+            PressedColor: =Label70_3.Color
+            PressedFill: =Label70_3.Fill
+            Size: =10.5
+            Text: =LookUp(Ranking,UserName=User().FullName,CountRows(Remaining.IncentiveCode))
+            Visible: =If(LookUp(Ranking,UserName=User().FullName,RowNumber)>10,true,false)
+            Width: =66
+            X: =433
+            Y: =660
+            ZIndex: =59
+
+        Label70 As label:
+            FocusedBorderColor: =Label70.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =Label70.BorderColor
+            HoverColor: =Label70.Color
+            HoverFill: =Label70.Fill
+            PressedBorderColor: =Label70.BorderColor
+            PressedColor: =Label70.Color
+            PressedFill: =Label70.Fill
+            Size: =10.5
+            Text: =LookUp(Ranking,UserName=User().FullName,RowNumber)
+            Visible: =If(LookUp(Ranking,UserName=User().FullName,RowNumber)>10,true,false)
+            Width: =42
+            X: =39
+            Y: =660
+            ZIndex: =61
+
+    RewardToGrabGroup As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =109
+
+        Rectangle32 As rectangle:
+            BorderColor: =RGBA(98, 100, 167, 1)
+            DisabledFill: =Rectangle32.Fill
+            DisplayMode: =
+            Fill: =RGBA(98, 100, 167, 1)
+            FocusedBorderColor: =Rectangle32.BorderColor
+            Height: =2
+            HoverFill: =Rectangle32.Fill
+            PressedFill: =Rectangle32.Fill
+            Width: =66
+            X: =581
+            Y: =432
+            ZIndex: =6
+
+        "'RewardsToGrab Rectangle' As rectangle":
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =1
+            DisabledFill: ='RewardsToGrab Rectangle'.Fill
+            DisplayMode: =
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: ='RewardsToGrab Rectangle'.BorderColor
+            Height: =362
+            HoverFill: ='RewardsToGrab Rectangle'.Fill
+            PressedFill: ='RewardsToGrab Rectangle'.Fill
+            Width: =253
+            X: =561
+            Y: =86
+            ZIndex: =41
+
+        Label21 As label:
+            Color: =RGBA(37, 36, 35, 1)
+            DisplayMode: =
+            FocusedBorderColor: =Label21.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =24
+            HoverBorderColor: =Label21.BorderColor
+            HoverColor: =Label21.Color
+            HoverFill: =Label21.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label21.BorderColor
+            PressedColor: =Label21.Color
+            PressedFill: =Label21.Fill
+            Size: =13.5
+            Text: ="Rewards"
+            X: =615
+            Y: =101
+            ZIndex: =42
+
+        Image3_1 As image:
+            DisplayMode: =
+            FocusedBorderColor: =Image3_1.BorderColor
+            Height: =24
+            HoverBorderColor: =ColorFade(Image3_1.BorderColor, 20%)
+            HoverFill: =ColorFade(Image3_1.Fill, 20%)
+            Image: ='Group 12@2x'
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =ColorFade(Image3_1.BorderColor, -20%)
+            PressedFill: =ColorFade(Image3_1.Fill, -20%)
+            Width: =24
+            X: =581
+            Y: =101
+            ZIndex: =43
+
+        "'View all rewards Button' As button":
+            Align: =Align.Left
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            Color: =RGBA(98, 100, 165, 1)
+            DisplayMode: =
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: ='View all rewards Button'.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Normal
+            Height: =20
+            HoverBorderColor: =ColorFade('View all rewards Button'.BorderColor, 20%)
+            HoverColor: =RGBA(98, 100, 167, 1)
+            HoverFill: =
+            OnSelect: |
+                =Set(MoreInfo,true);
+                Set(usertakenthis,false);
+                Set(expiredincentive,false);
+                Set(incencodenotexist,false);
+                Set(noinputcode,false);
+                Set(homerew,false);
+                Set(ViewDetails,false);
+                Reset(IncentiveCodeInputTxt);
+            PressedBorderColor: ='View all rewards Button'.Fill
+            PressedColor: =RGBA(98, 100, 167, 1)
+            PressedFill: =
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =10.5
+            Text: ="View all rewards"
+            Width: =120
+            X: =576
+            Y: =412
+            ZIndex: =44
+
+        "Gallery10 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =Gallery10.BorderColor
+            DisabledFill: =Gallery10.Fill
+            DisplayMode: =
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =266
+            HoverBorderColor: =Gallery10.BorderColor
+            HoverFill: =Gallery10.Fill
+            Items: =FirstN(Sort(Rewards_1,CreatedOn,Descending),3)
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =Gallery10.BorderColor
+            PressedBorderColor: =Gallery10.BorderColor
+            PressedFill: =Gallery10.Fill
+            ShowScrollbar: =false
+            TemplateFill: =If(ThisItem.Points>100,RGBA(244,194,169,100),If(ThisItem.Points<=100&&ThisItem.Points>50,RGBA(255,251,203,100),If(ThisItem.Points<=50,RGBA(238,199,194,100))))
+            TemplatePadding: =0
+            TemplateSize: =86
+            Visible: =homerew
+            Width: =215
+            X: =580
+            Y: =148
+            ZIndex: =47
+
+            Image10 As image:
+                FocusedBorderColor: =Image10.BorderColor
+                Height: =52
+                HoverBorderColor: =ColorFade(Image10.BorderColor, 20%)
+                HoverFill: =ColorFade(Image10.Fill, 20%)
+                Image: =If(IsBlank(First(ThisItem.Attachments).Value),SampleImage,First(ThisItem.Attachments).Value)
+                ImagePosition: =ImagePosition.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =ColorFade(Image10.BorderColor, -20%)
+                PressedFill: =ColorFade(Image10.Fill, -20%)
+                Width: =51
+                X: =10
+                Y: =15.5
+                ZIndex: =1
+
+            Title6 As label:
+                FocusedBorderColor: =Title6.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Normal
+                Height: =24
+                HoverBorderColor: =Title6.BorderColor
+                HoverColor: =Title6.Color
+                HoverFill: =Title6.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title6.BorderColor
+                PressedColor: =Title6.Color
+                PressedFill: =Title6.Fill
+                Size: =13.5
+                Text: =ThisItem.Points
+                VerticalAlign: =VerticalAlign.Top
+                Width: =134.1
+                X: =81
+                Y: =45
+                ZIndex: =2
+
+            Subtitle5 As label:
+                FocusedBorderColor: =Subtitle5.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =20
+                HoverBorderColor: =Subtitle5.BorderColor
+                HoverColor: =Subtitle5.Color
+                HoverFill: =Subtitle5.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Subtitle5.BorderColor
+                PressedColor: =Subtitle5.Color
+                PressedFill: =Subtitle5.Fill
+                Size: =10.5
+                Text: =If(Len(ThisItem.Name) > 15,Concatenate(Left(ThisItem.Name,15),"..."),ThisItem.Name)
+                Tooltip: =ThisItem.Name
+                VerticalAlign: =VerticalAlign.Top
+                Width: =132
+                X: =81
+                Y: =18
+                ZIndex: =3
+
+            Separator1 As rectangle:
+                BorderColor: =RGBA(255, 255, 255, 1)
+                BorderThickness: =10
+                DisabledFill: =Separator1.Fill
+                Fill: =RGBA(255, 255, 255, 1)
+                FocusedBorderColor: =Separator1.BorderColor
+                Height: =1
+                HoverFill: =Separator1.Fill
+                OnSelect: =Select(Parent)
+                PressedFill: =Separator1.Fill
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - 1
+                ZIndex: =5
+
+            Label50_1 As label:
+                Align: =Align.Justify
+                Color: =RGBA(255, 255, 255, 1)
+                Fill: =RGBA(98, 100, 167, 1)
+                FocusedBorderColor: =Label50_1.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =16
+                HoverBorderColor: =Label50_1.BorderColor
+                HoverColor: =Label50_1.Color
+                HoverFill: =Label50_1.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =7
+                PaddingLeft: =7
+                PressedBorderColor: =Label50_1.BorderColor
+                PressedColor: =Label50_1.Color
+                PressedFill: =Label50_1.Fill
+                Size: =9
+                Text: ="New"
+                Visible: =If(ThisItem.CreatedOn>=Today()-7,true,false)
+                Width: =42
+                X: =162
+                Y: =52
+                ZIndex: =6
+
+        ViewAllRewardsUnderline As rectangle:
+            BorderColor: =RGBA(98, 100, 167, 1)
+            DisabledFill: =ViewAllRewardsUnderline.Fill
+            DisplayMode: =
+            Fill: =RGBA(98, 100, 167, 1)
+            FocusedBorderColor: =ViewAllRewardsUnderline.BorderColor
+            FocusedBorderThickness: =1
+            Height: =1
+            HoverFill: =ViewAllRewardsUnderline.Fill
+            PressedFill: =ViewAllRewardsUnderline.Fill
+            Width: =100
+            X: =581
+            Y: =432
+            ZIndex: =48
+
+    MoreInfoGroup As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =109
+
+        Label49 As label:
+            FocusedBorderColor: =Label49.BorderColor
+            HoverBorderColor: =Label49.BorderColor
+            HoverColor: =Label49.Color
+            HoverFill: =Label49.Fill
+            PaddingRight: =4.05
+            PaddingTop: =4.05
+            PressedBorderColor: =Label49.BorderColor
+            PressedColor: =Label49.Color
+            PressedFill: =Label49.Fill
+            Size: =10.53
+            Text: =If(Gallery5.Selected.Checkbox2.Value="true",Gallery5.Selected.Label46.Text,"0")
+            Visible: =MoreInfo
+            Width: =121.45
+            X: =398.35
+            Y: =561
+            ZIndex: =62
+
+        Rectangle13 As rectangle:
+            DisabledFill: =Rectangle13.Fill
+            Fill: =RGBA(0, 0, 0, 0.8)
+            FocusedBorderColor: =Rectangle13.BorderColor
+            Height: =768
+            HoverFill: =Rectangle13.Fill
+            PressedFill: =Rectangle13.Fill
+            Visible: =MoreInfo
+            Width: =1106
+            X: =0.00
+            ZIndex: =63
+
+        Rectangle19 As rectangle:
+            BorderColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =Rectangle19.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Rectangle19.BorderColor
+            Height: =600
+            HoverFill: =Rectangle19.Fill
+            PressedFill: =Rectangle19.Fill
+            Visible: =MoreInfo
+            Width: =600
+            X: =254
+            Y: =84
+            ZIndex: =64
+
+        Icon17 As icon.Cancel:
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledFill: =Icon17.Fill
+            FocusedBorderColor: =Icon17.BorderColor
+            FocusedBorderThickness: =0
+            Height: =16
+            HoverBorderColor: =ColorFade(Icon17.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon17.Color, 20%)
+            HoverFill: =Icon17.Fill
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =Set(MoreInfo,false);Set(homerew,true);UpdateContext({ResetCheckbox:true});UpdateContext({checkboxuncheck:true});
+                UpdateContext({checkboxuncheck:false});
+                Clear(UserCheckedRewardPoints);
+                UpdateContext({checkboxuncheck:true});
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =ColorFade(Icon17.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon17.Color, -20%)
+            PressedFill: =Icon17.Fill
+            Visible: =MoreInfo
+            Width: =16
+            X: =813
+            Y: =104
+            ZIndex: =65
+
+        Label41 As label:
+            FocusedBorderColor: =Label41.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =24
+            HoverBorderColor: =Label41.BorderColor
+            HoverColor: =Label41.Color
+            HoverFill: =Label41.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label41.BorderColor
+            PressedColor: =Label41.Color
+            PressedFill: =Label41.Fill
+            Size: =13.5
+            Text: ="Rewards "
+            Visible: =MoreInfo
+            X: =317
+            Y: =108
+            ZIndex: =66
+
+        Label42 As label:
+            FocusedBorderColor: =Label42.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =24
+            HoverBorderColor: =Label42.BorderColor
+            HoverColor: =Label42.Color
+            HoverFill: =Label42.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label42.BorderColor
+            PressedColor: =Label42.Color
+            PressedFill: =Label42.Fill
+            Size: =10.5
+            Text: =""
+            Visible: =MoreInfo
+            Width: =178
+            X: =283
+            Y: =156
+            ZIndex: =67
+
+        Label43 As label:
+            FocusedBorderColor: =Label43.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Label43.BorderColor
+            HoverColor: =Label43.Color
+            HoverFill: =Label43.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Label43.BorderColor
+            PressedColor: =Label43.Color
+            PressedFill: =Label43.Fill
+            Size: =9
+            Text: ="Name"
+            Visible: =MoreInfo
+            Width: =200
+            X: =283
+            Y: =160
+            ZIndex: =68
+
+        Label43_1 As label:
+            FocusedBorderColor: =Label43_1.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Label43_1.BorderColor
+            HoverColor: =Label43_1.Color
+            HoverFill: =Label43_1.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Label43_1.BorderColor
+            PressedColor: =Label43_1.Color
+            PressedFill: =Label43_1.Fill
+            Size: =9
+            Text: ="Points"
+            Visible: =MoreInfo
+            Width: =80
+            X: =558
+            Y: =160
+            ZIndex: =69
+
+        Label43_2 As label:
+            FocusedBorderColor: =Label43_2.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Label43_2.BorderColor
+            HoverColor: =Label43_2.Color
+            HoverFill: =Label43_2.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Label43_2.BorderColor
+            PressedColor: =Label43_2.Color
+            PressedFill: =Label43_2.Fill
+            Size: =9
+            Text: ="Available to you"
+            Visible: =MoreInfo
+            Width: =100
+            X: =644
+            Y: =160
+            ZIndex: =70
+
+        "Gallery5 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+            DisabledBorderColor: =Gallery5.BorderColor
+            DisabledFill: =Gallery5.Fill
+            Height: =364
+            HoverBorderColor: =Gallery5.BorderColor
+            HoverFill: =Gallery5.Fill
+            Items: =Sort(Rewards_1,CreatedOn,Descending)
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =Gallery5.BorderColor
+            PressedBorderColor: =Gallery5.BorderColor
+            PressedFill: =Gallery5.Fill
+            TemplatePadding: =0
+            TemplateSize: =44
+            Visible: =MoreInfo
+            Width: =595
+            X: =253
+            Y: =191
+            ZIndex: =71
+
+            Image4 As image:
+                FocusedBorderColor: =Image4.BorderColor
+                Height: =32
+                HoverBorderColor: =ColorFade(Image4.BorderColor, 20%)
+                HoverFill: =ColorFade(Image4.Fill, 20%)
+                Image: =If(IsBlank(First(ThisItem.Attachments).Value),SampleImage,First(ThisItem.Attachments).Value)
+                OnSelect: =Select(Parent)
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                PressedBorderColor: =ColorFade(Image4.BorderColor, -20%)
+                PressedFill: =ColorFade(Image4.Fill, -20%)
+                Width: =25
+                X: =30
+                Y: =2
+                ZIndex: =1
+
+            Label46 As label:
+                FocusedBorderColor: =Label46.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =20
+                HoverBorderColor: =Label46.BorderColor
+                HoverColor: =Label46.Color
+                HoverFill: =Label46.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Label46.BorderColor
+                PressedColor: =Label46.Color
+                PressedFill: =Label46.Fill
+                Size: =10.5
+                Text: =ThisItem.Points
+                Width: =80
+                X: =308
+                Y: =10
+                ZIndex: =2
+
+            Title5 As label:
+                FocusedBorderColor: =Title5.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Normal
+                Height: =24
+                HoverBorderColor: =Title5.BorderColor
+                HoverColor: =Title5.Color
+                HoverFill: =Title5.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title5.BorderColor
+                PressedColor: =Title5.Color
+                PressedFill: =Title5.Fill
+                Size: =10.5
+                Text: =If(Len(ThisItem.Name) > 18,Concatenate(Left(ThisItem.Name,18),"..."),ThisItem.Name)
+                Tooltip: =ThisItem.Name
+                VerticalAlign: =VerticalAlign.Top
+                Width: =160
+                X: =70
+                Y: =10
+                ZIndex: =3
+
+            Label47 As label:
+                FocusedBorderColor: =Label47.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =20
+                HoverBorderColor: =Label47.BorderColor
+                HoverColor: =Label47.Color
+                HoverFill: =Label47.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Label47.BorderColor
+                PressedColor: =Label47.Color
+                PressedFill: =Label47.Fill
+                Size: =10.5
+                Text: =If(Value(Label44.Text)>=Value(Label46.Text)||Checkbox2.Value=true,"Yes","No")
+                Width: =70
+                X: =394
+                Y: =10
+                ZIndex: =4
+
+            Checkbox2 As checkbox:
+                BorderColor: =RGBA(255, 255, 255, 1)
+                BorderStyle: =BorderStyle.None
+                CheckboxBorderColor: =RGBA(0, 0, 0, 1)
+                CheckboxSize: =20
+                CheckmarkFill: =RGBA(98, 100, 167, 1)
+                DisplayMode: |-
+                    =If(Gallery5.Selected.Checkbox2.Value=true
+                    ,DisplayMode.Edit,If(Value(Label86_3.Text) <=Points,( DisplayMode.Edit)))
+                FocusedBorderColor: =Checkbox2.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =20
+                HoverBorderColor: =ColorFade(Checkbox2.BorderColor, 30%)
+                HoverColor: =ColorFade(RGBA(98,100,167,1), -20%)
+                HoverFill: =RGBA(255, 255, 255, 1)
+                OnSelect: |-
+                    =If(Checkbox2.Value=true,
+                    Collect(UserCheckedRewardPoints, {Title:Office365Users.MyProfile().Id,UserName:Office365Users.MyProfile().DisplayName,RewardName:ThisItem.Name,RewardPoint:ThisItem.Points,Status:"claimed",CreatedOn:Now()}
+                    ),
+                    Remove(UserCheckedRewardPoints, LookUp(UserCheckedRewardPoints, RewardPoint = ThisItem.Points))
+                    )
+                PaddingRight: =0.00
+                PaddingTop: =0.00
+                PressedBorderColor: =RGBA(255, 255, 255, 1)
+                PressedColor: =ColorFade(RGBA(98,100,167,1), -20%)
+                PressedFill: =RGBA(255, 255, 255, 1)
+                Reset: =checkboxuncheck
+                Size: =10.5
+                Text: =""
+                Visible: =If(Label47.Text="Yes" || Checkbox2.Value=true,true,false)
+                Width: =20
+                X: =502
+                Y: =10
+                ZIndex: =5
+
+            Label50 As label:
+                Color: =RGBA(255, 255, 255, 1)
+                Fill: =RGBA(98, 100, 167, 1)
+                FocusedBorderColor: =Label50.BorderColor
+                Font: =Font.'Segoe UI'
+                Height: =16
+                HoverBorderColor: =Label50.BorderColor
+                HoverColor: =Label50.Color
+                HoverFill: =Label50.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =7
+                PaddingLeft: =7
+                PressedBorderColor: =Label50.BorderColor
+                PressedColor: =Label50.Color
+                PressedFill: =Label50.Fill
+                Size: =9
+                Text: ="New"
+                Visible: =If(ThisItem.CreatedOn>=Today()-7,true,false)
+                Width: =42
+                X: =238
+                Y: =12
+                ZIndex: =6
+
+        Label44 As label:
+            Color: =RGBA(98, 100, 167, 1)
+            FocusedBorderColor: =Label44.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =33
+            HoverBorderColor: =Label44.BorderColor
+            HoverColor: =Label44.Color
+            HoverFill: =Label44.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label44.BorderColor
+            PressedColor: =Label44.Color
+            PressedFill: =Label44.Fill
+            Size: =24
+            Text: =Label86_3
+            Visible: =MoreInfo
+            Width: =322
+            X: =283
+            Y: =601
+            ZIndex: =72
+
+        Label45 As label:
+            FocusedBorderColor: =Label45.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            HoverBorderColor: =Label45.BorderColor
+            HoverColor: =Label45.Color
+            HoverFill: =Label45.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label45.BorderColor
+            PressedColor: =Label45.Color
+            PressedFill: =Label45.Fill
+            Size: =10.5
+            Text: ="Points to redeem"
+            Visible: =MoreInfo
+            Width: =140
+            X: =283
+            Y: =634
+            ZIndex: =73
+
+        Image11 As image:
+            FocusedBorderColor: =Image11.BorderColor
+            Height: =24
+            HoverBorderColor: =ColorFade(Image11.BorderColor, 20%)
+            HoverFill: =ColorFade(Image11.Fill, 20%)
+            Image: ='Group 12@2x'
+            PressedBorderColor: =ColorFade(Image11.BorderColor, -20%)
+            PressedFill: =ColorFade(Image11.Fill, -20%)
+            Visible: =MoreInfo
+            Width: =24
+            X: =283
+            Y: =108
+            ZIndex: =74
+
+        Label84_1 As label:
+            FocusedBorderColor: =Label84_1.BorderColor
+            Height: =44
+            HoverBorderColor: =Label84_1.BorderColor
+            HoverColor: =Label84_1.Color
+            HoverFill: =Label84_1.Fill
+            PaddingLeft: =15
+            PressedBorderColor: =Label84_1.BorderColor
+            PressedColor: =Label84_1.Color
+            PressedFill: =Label84_1.Fill
+            Text: =If(IsEmpty(UserCheckedRewardPoints), 0, Sum(UserCheckedRewardPoints, RewardPoint))
+            Visible: =false
+            Width: =165
+            X: =417
+            Y: =525
+            ZIndex: =75
+
+        Label86_3 As label:
+            FocusedBorderColor: =Label86_3.BorderColor
+            HoverBorderColor: =Label86_3.BorderColor
+            HoverColor: =Label86_3.Color
+            HoverFill: =Label86_3.Fill
+            PressedBorderColor: =Label86_3.BorderColor
+            PressedColor: =Label86_3.Color
+            PressedFill: =Label86_3.Fill
+            Text: =Label48_1-Label84_1
+            Visible: =false
+            X: =278
+            Y: =529
+            ZIndex: =76
+
+        Button20 As button:
+            BorderColor: =ColorFade(Button20.Fill, -15%)
+            BorderThickness: =0
+            DisplayMode: =If(CountRows(Filter(Gallery5.AllItems,Checkbox2.Value=true))>0,DisplayMode.Edit,Disabled)
+            Fill: =RGBA(98, 100, 167, 1)
+            FocusedBorderColor: =Button20.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =32
+            HoverBorderColor: =ColorFade(Button20.BorderColor, 20%)
+            HoverFill: =RGBA(76, 80, 158, 1)
+            OnSelect: |-
+                =Patch(UserRewards,UserCheckedRewardPoints);
+                Notify("The rewards have been sent to the admin team for approval. Once approved, your voucher code will appear in Your progress > Rewards",NotificationType.Success);
+                UpdateContext({ResetCheckbox:true});
+                UpdateContext({checkboxuncheck:true});
+                UpdateContext({checkboxuncheck:false});
+                UpdateContext({checkboxuncheck:true});
+                Clear(UserCheckedRewardPoints);
+            PressedBorderColor: =Button20.Fill
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(69, 75, 146, 1)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =10.5
+            Text: ="Redeem"
+            Visible: =MoreInfo
+            Width: =100
+            X: =729
+            Y: =620
+            ZIndex: =77
+
+    CollectIncentiveGroup As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =109
+
+        Rectangle14 As rectangle:
+            BorderColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =Rectangle14.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Rectangle14.BorderColor
+            Height: =148
+            HoverFill: =Rectangle14.Fill
+            PressedFill: =Rectangle14.Fill
+            Width: =523
+            X: =22
+            Y: =86
+            ZIndex: =7
+
+        "'Collect your points' As label":
+            Color: =RGBA(37, 36, 35, 1)
+            FocusedBorderColor: ='Collect your points'.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =24
+            HoverBorderColor: ='Collect your points'.BorderColor
+            HoverColor: ='Collect your points'.Color
+            HoverFill: ='Collect your points'.Fill
+            PaddingLeft: =0
+            PressedBorderColor: ='Collect your points'.BorderColor
+            PressedColor: ='Collect your points'.Color
+            PressedFill: ='Collect your points'.Fill
+            Size: =13.5
+            Text: ="Collect your points"
+            Width: =220
+            X: =80
+            Y: =101
+            ZIndex: =8
+
+        Image3 As image:
+            FocusedBorderColor: =Image3.BorderColor
+            Height: =24
+            HoverBorderColor: =ColorFade(Image3.BorderColor, 20%)
+            HoverFill: =ColorFade(Image3.Fill, 20%)
+            Image: ='Group 5@2x'
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =ColorFade(Image3.BorderColor, -20%)
+            PressedFill: =ColorFade(Image3.Fill, -20%)
+            Width: =24
+            X: =46
+            Y: =101
+            ZIndex: =9
+
+        "'Enter code for the completed activity' As label":
+            Color: =RGBA(37, 36, 35, 1)
+            FocusedBorderColor: ='Enter code for the completed activity'.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =20
+            HoverBorderColor: ='Enter code for the completed activity'.BorderColor
+            HoverColor: ='Enter code for the completed activity'.Color
+            HoverFill: ='Enter code for the completed activity'.Fill
+            OnSelect: |
+                =false
+            PaddingLeft: =0
+            PressedBorderColor: ='Enter code for the completed activity'.BorderColor
+            PressedColor: ='Enter code for the completed activity'.Color
+            PressedFill: ='Enter code for the completed activity'.Fill
+            Size: =10.5
+            Text: ="Enter code for the completed activity"
+            Width: =280
+            X: =46
+            Y: =142
+            ZIndex: =10
+
+        IncentiveCodeInputTxt As text:
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            Color: =RGBA(37, 36, 35, 1)
+            Default: =""
+            Fill: =RGBA(243, 242, 241, 1)
+            FocusedBorderColor: =IncentiveCodeInputTxt.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Lighter
+            Height: =32
+            HintText: ="Enter code here"
+            HoverFill: =RGBA(243, 242, 241, 1)
+            OnChange: =
+            OnSelect: =Set(expiredincentive,false);Set(usertakenthis,false);Set(incencodenotexist,false);Set(noinputcode,false);
+            PaddingLeft: =7
+            PressedBorderColor: =IncentiveCodeInputTxt.HoverBorderColor
+            PressedColor: =IncentiveCodeInputTxt.Color
+            PressedFill: =IncentiveCodeInputTxt.Fill
+            RadiusBottomLeft: =3
+            RadiusBottomRight: =3
+            RadiusTopLeft: =3
+            RadiusTopRight: =3
+            Size: =10.5
+            Width: =359
+            X: =46
+            Y: =170
+            ZIndex: =11
+
+        "'Collect your points submit button' As button":
+            BorderColor: =ColorFade('Collect your points submit button'.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            DisplayMode: =If(IsBlank(Trim(IncentiveCodeInputTxt.Text)), DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =RGBA(98, 100, 167, 1)
+            FocusedBorderColor: ='Collect your points submit button'.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =32
+            HoverBorderColor: =ColorFade('Collect your points submit button'.BorderColor, 20%)
+            HoverFill: =RGBA(76, 80, 158, 1)
+            OnSelect: |-
+                =Set(NameOfUser,Office365Users.MyProfile().DisplayName);
+                If(!IsBlank(LookUp([@Incentives_1],IncentiveCode=IncentiveCodeInputTxt.Text,IncentiveCode))&&IsBlank(LookUp(UserIncentives,UserName=NameOfUser&&IncentiveCode=IncentiveCodeInputTxt.Text,IncentiveCode)),If(LookUp([@Incentives_1],IncentiveCode=IncentiveCodeInputTxt.Text,DueDate)<Today()||(LookUp([@Incentives_1],IncentiveCode=IncentiveCodeInputTxt.Text,IsIncentiveLive)=false),Set(expiredincentive,true)));
+                
+                If(!IsBlank(LookUp(UserIncentives,UserName=NameOfUser&&IncentiveCode=IncentiveCodeInputTxt.Text,IncentiveCode)),Set(usertakenthis,true));
+                If(!IsBlank(IncentiveCodeInputTxt.Text),If(!LookUp([@Incentives_1],IncentiveCode=IncentiveCodeInputTxt.Text,IncentiveCode),Set(incencodenotexist,true)));
+                If((LookUp([@Incentives_1],IncentiveCode=IncentiveCodeInputTxt.Text,IncentiveCode))&&(LookUp([@Incentives_1],IncentiveCode=IncentiveCodeInputTxt.Text,DueDate)>=Today())&&(LookUp([@Incentives_1],IncentiveCode=IncentiveCodeInputTxt.Text,IsIncentiveLive)=true)&&IsBlank(LookUp(UserIncentives,UserName=NameOfUser&&IncentiveCode=IncentiveCodeInputTxt.Text,IncentiveCode)),Set(IncentBadgepop,true));
+                If((LookUp([@Incentives_1],IncentiveCode=IncentiveCodeInputTxt.Text,IncentiveCode))&&(LookUp([@Incentives_1],IncentiveCode=IncentiveCodeInputTxt.Text,DueDate)>=Today())&&(LookUp([@Incentives_1],IncentiveCode=IncentiveCodeInputTxt.Text,IsIncentiveLive)=true)&&IsBlank(LookUp(UserIncentives,UserName=NameOfUser&&IncentiveCode=IncentiveCodeInputTxt.Text,IncentiveCode)),Patch([@UserIncentives],{Title:Office365Users.MyProfile().Id,UserName:NameOfUser,IncentiveName:CongoIncenTitleLabel.Text,IncentivePoints:Value(CongoIncenPointsLabel.Text),IncentiveCode:IncentiveCodeInputTxt.Text,ReceivedOn:Now()}));
+            PressedBorderColor: ='Collect your points submit button'.Fill
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(69, 75, 146, 1)
+            RadiusBottomLeft: =2
+            RadiusBottomRight: =2
+            RadiusTopLeft: =2
+            RadiusTopRight: =2
+            Size: =10.5
+            Text: ="Submit"
+            Width: =100
+            X: =421
+            Y: =170
+            ZIndex: =12
+
+        Label87 As label:
+            Color: =RGBA(196, 49, 75, 1)
+            FocusedBorderColor: =Label87.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =20
+            HoverBorderColor: =Label87.BorderColor
+            HoverColor: =Label87.Color
+            HoverFill: =Label87.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label87.BorderColor
+            PressedColor: =Label87.Color
+            PressedFill: =Label87.Fill
+            Size: =9
+            Text: ="A code must be entered"
+            Visible: =noinputcode
+            Width: =220
+            X: =46
+            Y: =208
+            ZIndex: =49
+
+        IncenCodeNotexistLabel As label:
+            Color: =RGBA(196, 49, 75, 1)
+            FocusedBorderColor: =IncenCodeNotexistLabel.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =20
+            HoverBorderColor: =IncenCodeNotexistLabel.BorderColor
+            HoverColor: =IncenCodeNotexistLabel.Color
+            HoverFill: =IncenCodeNotexistLabel.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =IncenCodeNotexistLabel.BorderColor
+            PressedColor: =IncenCodeNotexistLabel.Color
+            PressedFill: =IncenCodeNotexistLabel.Fill
+            Size: =9
+            Text: =If(noinputcode,"","Invalid code")
+            Visible: =incencodenotexist
+            Width: =360
+            X: =46
+            Y: =208
+            ZIndex: =50
+
+        IncenCompValidLabel As label:
+            Color: =RGBA(196, 49, 75, 1)
+            FocusedBorderColor: =IncenCompValidLabel.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =20
+            HoverBorderColor: =IncenCompValidLabel.BorderColor
+            HoverColor: =IncenCompValidLabel.Color
+            HoverFill: =IncenCompValidLabel.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =IncenCompValidLabel.BorderColor
+            PressedColor: =IncenCompValidLabel.Color
+            PressedFill: =IncenCompValidLabel.Fill
+            Size: =9
+            Text: =If(noinputcode||incencodenotexist,"","You already collected points for this code ")
+            Visible: =usertakenthis
+            Width: =240
+            X: =47
+            Y: =208
+            ZIndex: =51
+
+        ExpiredIncentiveLabel As label:
+            Color: =RGBA(196, 49, 75, 1)
+            FocusedBorderColor: =ExpiredIncentiveLabel.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =20
+            HoverBorderColor: =ExpiredIncentiveLabel.BorderColor
+            HoverColor: =ExpiredIncentiveLabel.Color
+            HoverFill: =ExpiredIncentiveLabel.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =ExpiredIncentiveLabel.BorderColor
+            PressedColor: =ExpiredIncentiveLabel.Color
+            PressedFill: =ExpiredIncentiveLabel.Fill
+            Size: =9
+            Text: ="Expired code"
+            Visible: =expiredincentive
+            Width: =240
+            X: =46
+            Y: =208
+            ZIndex: =54
+
+    Label9 As label:
+        Height: =72
+        Text: =currentUserEmail
+        Width: =358
+        X: =22
+        Y: =36
+        ZIndex: =114
+
+    Container1 As groupContainer.manualLayoutContainer:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(202, 202, 202, 1)
+        Height: =40
+        LayoutDirection: =LayoutDirection.Horizontal
+        LayoutMode: =LayoutMode.Manual
+        Visible: |
+            =!IsBlank(LookUp(IncentiveAdminList,Title=currentUserEmail).ID)
+        Width: =147
+        X: =959
+        Y: =17
+        ZIndex: =115
+
+        Button3 As button:
+            BorderColor: =ColorFade(Button3.Fill, -15%)
+            BorderThickness: =1
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =27
+            HoverBorderColor: =//ColorFade(Button3.BorderColor, 20%)
+            HoverFill: =
+            OnSelect: |+
+                =
+                Navigate(AdminScreen);
+                Set(AddIncentive,false);
+                Set(EditIncentive,false);
+                Set(AddEditIncentive,false);
+                Set(GiveRewards,true);Set(extravisible,true);
+                Set(EditReward,false);
+                Set(ManualEdit,false);
+                Set(addreward,false);
+                Set(ShowErrorMsg,false);
+                Set(ReasonLabel,false);
+                Set(IncenName,false);
+                Set(MemberName,false);
+                Set(vouchercodemandatory,false);
+                Set(UnderLine1,true);
+                Set(UnderLine2,false);
+                Set(UnderLine3,false);
+                Set(UnderLine4,false);
+                Set(noincentremove,false);
+                Set(manualmandatory,false);
+                Set(GiveRewardsHeading1,true);
+                Set(GiveRewardsHeading2,true);
+                Set(ManualEditsHeading1,false);
+                Set(ManualEditsHeading2,false);
+                Set(AddEditIncentiveHeading1,false);
+                Set(AddEditIncentiveHeading2,false);
+                Set(AddEditRewardHeading1,false);
+                Set(AddEditRewardHeading2,false);
+                Set(GiveRewardsScreen,true);
+                Set(GiveRewardsHeaderTitleBlack,true);
+                Set(ManualEditsHeaderTitleBlack,false);
+                Set(AddEditIncentiveHeaderTitleBlack,false);
+                Set(AddEditRewardHeaderTitleBlack,false);
+                Reset(IncentiveCodeInputTxt);
+                Set(usertakenthis,false);
+                Set(expiredincentive,false);
+                Set(incencodenotexist,false);
+                Set(sortbyrequested,true);
+                Set(noinputcode,false);
+                
+            PressedBorderColor: =//Button3.Fill
+            PressedColor: =//Button3.Fill
+            PressedFill: =//Button3.Color
+            Size: =10.5
+            Text: ="Admin Tool"
+            Width: =97
+            X: =37
+            Y: =5
+            ZIndex: =1
+
+        Icon3 As icon.Add:
+            Color: =RGBA(89, 31, 6, 1)
+            DisabledFill: =Icon3.Fill
+            Height: =37
+            HoverBorderColor: =ColorFade(Icon3.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon3.Color, 20%)
+            HoverFill: =Icon3.Fill
+            Icon: =Icon.Settings
+            PressedBorderColor: =ColorFade(Icon3.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon3.Color, -20%)
+            PressedFill: =Icon3.Fill
+            Width: =16
+            X: =21
+            ZIndex: =2
+
+    IncentBadgepopGroup As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =122
+
+        IncenSubmitRectpop As rectangle:
+            DisabledFill: =IncenSubmitRectpop.Fill
+            Fill: =RGBA(0 ,0 , 0, 0.8)
+            FocusedBorderColor: =IncenSubmitRectpop.BorderColor
+            Height: =768
+            HoverFill: =IncenSubmitRectpop.Fill
+            PressedFill: =IncenSubmitRectpop.Fill
+            Visible: =IncentBadgepop
+            Width: =1106.00
+            ZIndex: =101
+
+        IncenSubmitSmallRectpop As rectangle:
+            DisabledFill: =IncenSubmitSmallRectpop.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =IncenSubmitSmallRectpop.BorderColor
+            Height: =600
+            HoverFill: =IncenSubmitSmallRectpop.Fill
+            PressedFill: =IncenSubmitSmallRectpop.Fill
+            Visible: =IncentBadgepop
+            Width: =600
+            X: =253
+            Y: =84
+            ZIndex: =102
+
+        IncenCongoRect As rectangle:
+            BorderColor: =RGBA(255, 227, 164, 1)
+            BorderThickness: =2
+            DisabledFill: =IncenCongoRect.Fill
+            Fill: =RGBA(255, 247, 225, 1)
+            FocusedBorderColor: =IncenCongoRect.BorderColor
+            Height: =282
+            HoverFill: =IncenCongoRect.Fill
+            PressedFill: =IncenCongoRect.Fill
+            Visible: =IncentBadgepop
+            Width: =250
+            X: =428
+            Y: =243
+            ZIndex: =103
+
+        Icon29 As icon.Cancel:
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledFill: =Icon29.Fill
+            FocusedBorderColor: =Icon29.BorderColor
+            Height: =16
+            HoverBorderColor: =ColorFade(Icon29.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon29.Color, 20%)
+            HoverFill: =Icon29.Fill
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =Set(IncentBadgepop,false);
+                Reset(IncentiveCodeInputTxt);
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =ColorFade(Icon29.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon29.Color, -20%)
+            PressedFill: =Icon29.Fill
+            Visible: =IncentBadgepop
+            Width: =16
+            X: =813
+            Y: =104
+            ZIndex: =104
+
+        CongratsLabel As label:
+            FocusedBorderColor: =CongratsLabel.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =32
+            HoverBorderColor: =CongratsLabel.BorderColor
+            HoverColor: =CongratsLabel.Color
+            HoverFill: =CongratsLabel.Fill
+            PressedBorderColor: =CongratsLabel.BorderColor
+            PressedColor: =CongratsLabel.Color
+            PressedFill: =CongratsLabel.Fill
+            Size: =18
+            Text: ="Congratulations!"
+            Visible: =IncentBadgepop
+            Width: =192
+            X: =460
+            Y: =263
+            ZIndex: =105
+
+        CongoYouEarnedLabel As label:
+            FocusedBorderColor: =CongoYouEarnedLabel.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =CongoYouEarnedLabel.BorderColor
+            HoverColor: =CongoYouEarnedLabel.Color
+            HoverFill: =CongoYouEarnedLabel.Fill
+            PressedBorderColor: =CongoYouEarnedLabel.BorderColor
+            PressedColor: =CongoYouEarnedLabel.Color
+            PressedFill: =CongoYouEarnedLabel.Fill
+            Size: =9
+            Text: ="You have earned"
+            Visible: =IncentBadgepop
+            Width: =110
+            X: =498
+            Y: =303
+            ZIndex: =106
+
+        CongoIncenImage As image:
+            FocusedBorderColor: =CongoIncenImage.BorderColor
+            Height: =125
+            HoverBorderColor: =ColorFade(CongoIncenImage.BorderColor, 20%)
+            HoverFill: =ColorFade(CongoIncenImage.Fill, 20%)
+            Image: ='medal (2)@2x'
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =ColorFade(CongoIncenImage.BorderColor, -20%)
+            PressedFill: =ColorFade(CongoIncenImage.Fill, -20%)
+            Visible: =IncentBadgepop
+            Width: =125
+            X: =490
+            Y: =339
+            ZIndex: =107
+
+        CongoIncentLabelTitle As label:
+            Align: =Align.Center
+            FocusedBorderColor: =CongoIncentLabelTitle.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =20
+            HoverBorderColor: =CongoIncentLabelTitle.BorderColor
+            HoverColor: =CongoIncentLabelTitle.Color
+            HoverFill: =CongoIncentLabelTitle.Fill
+            PressedBorderColor: =CongoIncentLabelTitle.BorderColor
+            PressedColor: =CongoIncentLabelTitle.Color
+            PressedFill: =CongoIncentLabelTitle.Fill
+            Size: =10.5
+            Text: ="Completed activity"
+            Visible: =IncentBadgepop
+            Width: =140
+            X: =484
+            Y: =471
+            ZIndex: =108
+
+        CongoIncenTitleLabel As label:
+            Align: =Align.Center
+            FocusedBorderColor: =CongoIncenTitleLabel.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =CongoIncenTitleLabel.BorderColor
+            HoverColor: =CongoIncenTitleLabel.Color
+            HoverFill: =CongoIncenTitleLabel.Fill
+            PressedBorderColor: =CongoIncenTitleLabel.BorderColor
+            PressedColor: =CongoIncenTitleLabel.Color
+            PressedFill: =CongoIncenTitleLabel.Fill
+            Size: =10.5
+            Text: =LookUp([@Incentives_1],IncentiveCode=IncentiveCodeInputTxt.Text,Name)
+            Visible: =IncentBadgepop
+            Width: =255
+            X: =428
+            Y: =487
+            ZIndex: =109
+
+        CongoIncenPointsLabel As label:
+            Align: =Align.Center
+            FocusedBorderColor: =CongoIncenPointsLabel.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =24
+            HoverBorderColor: =CongoIncenPointsLabel.BorderColor
+            HoverColor: =CongoIncenPointsLabel.Color
+            HoverFill: =CongoIncenPointsLabel.Fill
+            PressedBorderColor: =CongoIncenPointsLabel.BorderColor
+            PressedColor: =CongoIncenPointsLabel.Color
+            PressedFill: =CongoIncenPointsLabel.Fill
+            Size: =18
+            Text: =LookUp(Incentives_1,IncentiveCode=IncentiveCodeInputTxt.Text,Points)
+            Visible: =IncentBadgepop
+            Width: =125
+            X: =490
+            Y: =365
+            ZIndex: =110
+
+        Label91 As label:
+            FocusedBorderColor: =Label91.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            HoverBorderColor: =Label91.BorderColor
+            HoverColor: =Label91.Color
+            HoverFill: =Label91.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label91.BorderColor
+            PressedColor: =Label91.Color
+            PressedFill: =Label91.Fill
+            Size: =10.5
+            Text: ="Collect your points"
+            Visible: =IncentBadgepop
+            Width: =213
+            X: =317
+            Y: =108
+            ZIndex: =111
+
+        Label84 As label:
+            FocusedBorderColor: =Label84.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Label84.BorderColor
+            HoverColor: =Label84.Color
+            HoverFill: =Label84.Fill
+            PressedBorderColor: =Label84.BorderColor
+            PressedColor: =Label84.Color
+            PressedFill: =Label84.Fill
+            Size: =9
+            Text: ="Points"
+            Visible: =IncentBadgepop
+            Width: =46
+            X: =534
+            Y: =388
+            ZIndex: =112
+
+        Image3_5 As image:
+            FocusedBorderColor: =Image3_5.BorderColor
+            Height: =24
+            HoverBorderColor: =ColorFade(Image3_5.BorderColor, 20%)
+            HoverFill: =ColorFade(Image3_5.Fill, 20%)
+            Image: ='Group 5@2x'
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =ColorFade(Image3_5.BorderColor, -20%)
+            PressedFill: =ColorFade(Image3_5.Fill, -20%)
+            Visible: =IncentBadgepop
+            Width: =24
+            X: =283
+            Y: =108
+            ZIndex: =113
+
+    MyIncentivesGroup As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =123
+
+        "'Your Progress Rectangle' As rectangle":
+            DisabledFill: ='Your Progress Rectangle'.Fill
+            Fill: =RGBA(228, 230, 237, 1)
+            FocusedBorderColor: ='Your Progress Rectangle'.BorderColor
+            Height: =365
+            HoverFill: ='Your Progress Rectangle'.Fill
+            PressedFill: ='Your Progress Rectangle'.Fill
+            Width: =253
+            X: =831
+            Y: =86
+            ZIndex: =30
+
+        "'Your progress' As label":
+            FocusedBorderColor: ='Your progress'.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =24
+            HoverBorderColor: ='Your progress'.BorderColor
+            HoverColor: ='Your progress'.Color
+            HoverFill: ='Your progress'.Fill
+            PaddingLeft: =0
+            PressedBorderColor: ='Your progress'.BorderColor
+            PressedColor: ='Your progress'.Color
+            PressedFill: ='Your progress'.Fill
+            Size: =13.5
+            Text: ="Your progress"
+            X: =885
+            Y: =101
+            ZIndex: =31
+
+        Image3_2 As image:
+            FocusedBorderColor: =Image3_2.BorderColor
+            Height: =24
+            HoverBorderColor: =ColorFade(Image3_2.BorderColor, 20%)
+            HoverFill: =ColorFade(Image3_2.Fill, 20%)
+            Image: ='Group 8@2x'
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =ColorFade(Image3_2.BorderColor, -20%)
+            PressedFill: =ColorFade(Image3_2.Fill, -20%)
+            Width: =24
+            X: =851
+            Y: =101
+            ZIndex: =32
+
+        "'Points to redeem' As label":
+            FocusedBorderColor: ='Points to redeem'.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            HoverBorderColor: ='Points to redeem'.BorderColor
+            HoverColor: ='Points to redeem'.Color
+            HoverFill: ='Points to redeem'.Fill
+            PaddingLeft: =0
+            PressedBorderColor: ='Points to redeem'.BorderColor
+            PressedColor: ='Points to redeem'.Color
+            PressedFill: ='Points to redeem'.Fill
+            Size: =10.5
+            Text: ="Points to redeem"
+            Width: =184
+            X: =851
+            Y: =194
+            ZIndex: =33
+
+        "'Rewards requested' As label":
+            FocusedBorderColor: ='Rewards requested'.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            HoverBorderColor: ='Rewards requested'.BorderColor
+            HoverColor: ='Rewards requested'.Color
+            HoverFill: ='Rewards requested'.Fill
+            PaddingLeft: =0
+            PressedBorderColor: ='Rewards requested'.BorderColor
+            PressedColor: ='Rewards requested'.Color
+            PressedFill: ='Rewards requested'.Fill
+            Size: =10.5
+            Text: ="Rewards requested"
+            Width: =184
+            X: =851
+            Y: =315
+            ZIndex: =34
+
+        "'Total points earned' As label":
+            FocusedBorderColor: ='Total points earned'.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: ='Total points earned'.BorderColor
+            HoverColor: ='Total points earned'.Color
+            HoverFill: ='Total points earned'.Fill
+            PaddingBottom: =7
+            PaddingLeft: =0
+            PressedBorderColor: ='Total points earned'.BorderColor
+            PressedColor: ='Total points earned'.Color
+            PressedFill: ='Total points earned'.Fill
+            Size: =9
+            Text: ="Total points earned"
+            Width: =140
+            X: =851
+            Y: =260
+            ZIndex: =35
+
+        "'Rewards claimed' As label":
+            FocusedBorderColor: ='Rewards claimed'.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: ='Rewards claimed'.BorderColor
+            HoverColor: ='Rewards claimed'.Color
+            HoverFill: ='Rewards claimed'.Fill
+            PaddingLeft: =0
+            PressedBorderColor: ='Rewards claimed'.BorderColor
+            PressedColor: ='Rewards claimed'.Color
+            PressedFill: ='Rewards claimed'.Fill
+            Size: =9
+            Text: ="Rewards claimed"
+            Width: =140
+            X: =851
+            Y: =376
+            ZIndex: =36
+
+        Label48 As label:
+            Color: =RGBA(98, 100, 167, 1)
+            FocusedBorderColor: =Label48.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =32
+            HoverBorderColor: =Label48.BorderColor
+            HoverColor: =Label48.Color
+            HoverFill: =Label48.Fill
+            PaddingBottom: =7
+            PaddingLeft: =0
+            PressedBorderColor: =Label48.BorderColor
+            PressedColor: =Label48.Color
+            PressedFill: =Label48.Fill
+            Size: =18
+            Text: =(Value(0)+Sum(Filter(UserIncentives,UserName = Office365Users.MyProfile().DisplayName),IncentivePoints))
+            Width: =200
+            X: =851
+            Y: =228
+            ZIndex: =37
+
+        Label48_1 As label:
+            Color: =RGBA(98, 100, 167, 1)
+            FocusedBorderColor: =Label48_1.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =34
+            HoverBorderColor: =Label48_1.BorderColor
+            HoverColor: =Label48_1.Color
+            HoverFill: =Label48_1.Fill
+            PaddingBottom: =7
+            PaddingLeft: =0
+            PressedBorderColor: =Label48_1.BorderColor
+            PressedColor: =Label48_1.Color
+            PressedFill: =Label48_1.Fill
+            Size: =24
+            Text: =If(Sum(Filter(UserIncentives,UserName = Office365Users.MyProfile().DisplayName),IncentivePoints)-Sum(Filter(UserRewards,UserName=Office365Users.MyProfile().DisplayName),RewardPoint)<0,Value(0),Sum(Filter(UserIncentives,UserName = Office365Users.MyProfile().DisplayName),IncentivePoints)-Sum(Filter(UserRewards,UserName=Office365Users.MyProfile().DisplayName),RewardPoint))
+            Width: =200
+            X: =851
+            Y: =156
+            ZIndex: =38
+
+        Label48_2 As label:
+            Color: =RGBA(98, 100, 167, 1)
+            FocusedBorderColor: =Label48_2.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =34
+            HoverBorderColor: =Label48_2.BorderColor
+            HoverColor: =Label48_2.Color
+            HoverFill: =Label48_2.Fill
+            PaddingBottom: =7
+            PaddingLeft: =0
+            PressedBorderColor: =Label48_2.BorderColor
+            PressedColor: =Label48_2.Color
+            PressedFill: =Label48_2.Fill
+            Size: =24
+            Text: =CountRows(Filter(UserRewards,UserName=Office365Users.MyProfile().DisplayName&&Status="claimed"))
+            Width: =220
+            X: =851
+            Y: =283
+            ZIndex: =39
+
+        Label48_3 As label:
+            Color: =RGBA(98, 100, 167, 1)
+            FocusedBorderColor: =Label48_3.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =32
+            HoverBorderColor: =Label48_3.BorderColor
+            HoverColor: =Label48_3.Color
+            HoverFill: =Label48_3.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =Label48_3.BorderColor
+            PressedColor: =Label48_3.Color
+            PressedFill: =Label48_3.Fill
+            Size: =18
+            Text: =CountRows(Filter(UserRewards,UserName=Office365Users.MyProfile().DisplayName&&Status="collected"))
+            Width: =200
+            X: =851
+            Y: =344
+            ZIndex: =40
+
+        "'View full dashboard Button' As button":
+            Align: =Align.Left
+            BorderColor: =RGBA(228, 230, 237, 1)
+            BorderThickness: =0
+            Color: =RGBA(98, 100, 165, 1)
+            Fill: =RGBA(228, 230, 237, 1)
+            FocusedBorderColor: ='View full dashboard Button'.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Normal
+            Height: =20
+            HoverBorderColor: =ColorFade('View full dashboard Button'.BorderColor, 20%)
+            HoverColor: =RGBA(98, 100, 167, 1)
+            HoverFill: =
+            OnSelect: |
+                =Set(ViewDetails,true);Set(usertakenthis,false);Set(expiredincentive,false);Set(incencodenotexist,false);Set(noinputcode,false);Set(Incentives,true);Set(homerew,false);
+                Set(MoreInfo,false);
+                Set(SelectViewDetails,true);Reset(IncentiveCodeInputTxt);
+            PressedBorderColor: ='View full dashboard Button'.Fill
+            PressedColor: =RGBA(100, 98, 167, 1)
+            PressedFill: =
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =10.5
+            Text: ="View full details"
+            Width: =140
+            X: =845
+            Y: =412
+            ZIndex: =45
+
+        ViewFullDashboardUnderline As rectangle:
+            BorderColor: =RGBA(98, 100, 167, 1)
+            DisabledFill: =ViewFullDashboardUnderline.Fill
+            Fill: =RGBA(98, 100, 167, 1)
+            FocusedBorderColor: =ViewFullDashboardUnderline.BorderColor
+            FocusedBorderThickness: =1
+            Height: =1
+            HoverFill: =ViewFullDashboardUnderline.Fill
+            PressedFill: =ViewFullDashboardUnderline.Fill
+            Width: =100
+            X: =850
+            Y: =432
+            ZIndex: =46
+

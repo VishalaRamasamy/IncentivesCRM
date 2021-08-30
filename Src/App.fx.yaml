@@ -1,0 +1,7 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |-
+        =If(CountRows(Filter(Office365Groups.ListGroupMembers("eca17fe4-89f3-4f60-9c57-6db726591287").value, id = Office365Users.MyProfile().Id)) > 0,Set(showadmin,true),Set(showadmin,false));Set(sortbycreated,true);
+        Set(extravisible,true);
+        Set(currentUserEmail,User().Email);
+

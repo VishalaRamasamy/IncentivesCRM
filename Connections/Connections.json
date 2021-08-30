@@ -1,0 +1,114 @@
+{
+  "5aa8a25d-fe0d-4665-b093-35b2c7118d56": {
+    "connectionInstanceId": "/providers/microsoft.powerapps/apis/shared_office365groups/connections/d1442ddbb98249cbaaea906e4dc99f26",
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Groups",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1504/1.0.1504.2515/office365groups/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365groups",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Groups"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "5aa8a25d-fe0d-4665-b093-35b2c7118d56"
+  },
+  "5b931bcd-00db-4b35-8071-28e143b50acf": {
+    "connectionInstanceId": "/providers/microsoft.powerapps/apis/shared_sharepointonline/connections/e7d1e230110f4211bc84c2ffa5032829",
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1505/1.0.1505.2520/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://listertechnologies.sharepoint.com/sites/Incentives_CRM": {
+        "dataSources": {
+          "Incentives_1": {
+            "tableName": "a96d6d26-4da7-4b8e-9503-de15fab72247"
+          },
+          "Rewards_1": {
+            "tableName": "45fe6efc-5367-4005-9d88-c6c02cf432f1"
+          },
+          "UserIncentives": {
+            "tableName": "b0d8497d-5d24-4c24-bc26-bfdec1baf43f"
+          },
+          "UserRewards": {
+            "tableName": "f2b85316-b679-4a7b-9589-fde9b2c05579"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Incentives_1",
+      "Rewards_1",
+      "UserIncentives",
+      "UserRewards"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "5b931bcd-00db-4b35-8071-28e143b50acf"
+  },
+  "9846f707-3faa-488a-a371-e8a30a94cbb8": {
+    "connectionInstanceId": "/providers/microsoft.powerapps/apis/shared_sharepointonline/connections/01cda0cf912a415aae12384dd9c708b2",
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1505/1.0.1505.2520/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://listertechnologies.sharepoint.com/sites/DemoList": {
+        "dataSources": {
+          "IncentiveAdminList": {
+            "tableName": "9d15eab5-6ff9-4ec7-9d43-4c20b1bc51eb"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "IncentiveAdminList"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "9846f707-3faa-488a-a371-e8a30a94cbb8"
+  },
+  "f87b4ca7-8b27-4990-8c42-119b45456d28": {
+    "connectionInstanceId": "/providers/microsoft.powerapps/apis/shared_office365users/connections/23bccd01462d4e27980aa3fb12a89c79",
+    "connectionParameters": {
+      "sku": "Enterprise"
+    },
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1472/1.0.1472.2427/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "f87b4ca7-8b27-4990-8c42-119b45456d28"
+  }
+}
